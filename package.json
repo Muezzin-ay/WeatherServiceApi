@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Muezzin-ay/WeatherServiceApi/issues"
   },
-  "homepage": "https://github.com/Muezzin-ay/WeatherServiceApi#readme"
+  "homepage": "https://github.com/Muezzin-ay/WeatherServiceApi#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mariadb": "^2.4.1",
+    "moment": "^2.27.0"
+  }
 }
