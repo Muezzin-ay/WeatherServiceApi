@@ -11,6 +11,7 @@
     <script src="./src/vueJs/vue.js"></script>
     
     <!--owm scripts-->
+    <script src="./src/components/currentSensorData.js"></script>
     <script src="./src/components/main.js"></script>
 
     <link rel="stylesheet" href="./src/bootstrap-4.5.0-dist/css/bootstrap.min.css">
@@ -18,12 +19,9 @@
 
   </head>
   <body>
-    <h1>SensorPage</h1>
-    <a href="https://google.com">Google</a>
-    <button type="button" class="btn btn-primary">Primary</button>
 
     <div id="app">
-        {{ message }}
+        <current-sensor-data></current-sensor-data>
       </div>
 
   </body>
