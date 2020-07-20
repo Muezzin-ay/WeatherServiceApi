@@ -27,6 +27,19 @@ api.get('/fromto', function (req, res) {
     
     
 });
+
+api.get('/current', function (req, res) {
+    try {
+        let result = db.getCurrentMeasures((data)=>{
+            res.send(data);
+        });
+    } catch (error) {
+        res.send(error);
+        console.log(error);
+    }
+    
+    
+});
   
 
 

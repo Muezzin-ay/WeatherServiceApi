@@ -25,7 +25,7 @@ module.exports = {
   getAllMeasures: function(resolve){
     pool.getConnection()
     .then(conn => {
-        conn.query("SELECt * FROM raspisensor.measures")
+        conn.query("SELECT * FROM raspisensor.measures")
         .then(res => { // res: { affectedRows: 1, insertId: 1, warningStatus: 0 }
             conn.release(); // release to pool
             resolve(res);
@@ -43,7 +43,25 @@ module.exports = {
   getFromToMeasures: function(from,to,resolve){
     pool.getConnection()
     .then(conn => {
-        conn.query("SELECt * FROM raspisensor.measures where timestamp > TIMESTAMP('"+from+"') AND timestamp < TIMESTAMP('"+to+"');")
+        conn.query("SELECT * FROM raspisensor.measures where timestamp > TIMESTAMP('"+from+"') AND timestamp < TIMESTAMP('"+to+"');")
+        .then(res => { // res: { affectedRows: 1, insertId: 1, warningStatus: 0 }
+            conn.release(); // release to pool
+            resolve(res);
+        })
+        .catch(err => {
+            console.log(err);
+            conn.release(); // release to pool
+        })
+        
+    }).catch(err => {
+        console.log(err);
+    });
+    
+  },
+  getCurrentMeasures: function(resolve){
+    pool.getConnection()
+    .then(conn => {
+        conn.query("SELECT * FROM raspisensor.measures WHERE id like (SELECT max(id) from raspisensor.measures);")
         .then(res => { // res: { affectedRows: 1, insertId: 1, warningStatus: 0 }
             conn.release(); // release to pool
             resolve(res);
