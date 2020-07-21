@@ -1,3 +1,6 @@
+const moment = require('moment');
+
+
 module.exports = {
     calculateBin : function(data, binSize){
         /**
@@ -5,17 +8,39 @@ module.exports = {
          * binSize : 
          */
 
-         binSize = binSize * 1000
-
         let start = moment(data[0].timestamp).unix()
         let len = data.length - 1
         let end = moment(data[len].timestamp).unix()
 
         let differenceLength = end - start
-        bin = differenceLength / binSize
-        finalData = this.calculateBin(data,bin)
+        binCount = parseInt(differenceLength / binSize)+1;
 
-        return finalData
+        let emptyArray = [];
+        for(let i = 0; i<binCount; i++){
+            emptyArray.push({
+                x: start + i*binSize, 
+                x_as_isotime: moment((start + i*binSize)*1000),
+                values: null
+            });
+        }
+
+
+        console.log('BinGroups: ' + binCount);
+
+
+
+
+        //finalData = this.calculateData(data,bin)
+
+
+
+
+
+
+
+
+
+        return emptyArray
     }, 
 
     calculateData : function(data,bin){

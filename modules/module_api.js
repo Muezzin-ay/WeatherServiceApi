@@ -26,14 +26,18 @@ api.get('/', function (req, res) {
 
 api.get('/fromto', function (req, res) {
     try {
+
+        //Query parameter
         let from = req.query.from
         let to = req.query.to
+        let binSize = req.query.bin;
+
+
         let newFrom = moment(from).format("YYYY-MM-DD HH:mm:ss")
         let newTo = moment(to).format("YYYY-MM-DD HH:mm:ss")
         let result = db.getFromToMeasures(newFrom,newTo,(data)=>{
-            let finalData = acregation.calculateBin(data,1)
+            let finalData = acregation.calculateBin(data,binSize)
             res.send(finalData);
-            
         });
     } catch (error) {
         res.status(500).send('Server error occured.')
