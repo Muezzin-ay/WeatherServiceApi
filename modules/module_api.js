@@ -6,10 +6,18 @@ const moment = require('moment');
 api.get('/', function (req, res) {  
     try {
         let result = db.getCurrentMeasures((data)=>{
-            res.send(data);
+            
+            let R = {
+                timestamp: data.timestamp,
+                temperature: (data.temperature2 + data.temperature1)/2,
+                pressure: data.pressure,
+                humidity: data.humidity,
+            }
+            
+            res.send(R);
         });
     } catch (error) {
-        res.send(error);
+        res.status(500).send('Server error occured.')
         console.log(error);
     }
     
@@ -25,11 +33,9 @@ api.get('/fromto', function (req, res) {
             res.send(data);
         });
     } catch (error) {
-        res.send(error);
+        res.status(500).send('Server error occured.')
         console.log(error);
     }
-    
-    
 });
 
 module.exports = api
