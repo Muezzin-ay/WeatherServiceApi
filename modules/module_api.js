@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./module_db_connection')
+const acregation = require('./module_acregation')
 const api = express.Router(); 
 const moment = require('moment');
 
@@ -30,7 +31,9 @@ api.get('/fromto', function (req, res) {
         let newFrom = moment(from).format("YYYY-MM-DD HH:mm:ss")
         let newTo = moment(to).format("YYYY-MM-DD HH:mm:ss")
         let result = db.getFromToMeasures(newFrom,newTo,(data)=>{
-            res.send(data);
+            let finalData = acregation.calculateBin(data,1)
+            res.send(finalData);
+            
         });
     } catch (error) {
         res.status(500).send('Server error occured.')
