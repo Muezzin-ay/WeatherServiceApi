@@ -30,13 +30,13 @@ api.get('/fromto', function (req, res) {
         //Query parameter
         let from = req.query.from
         let to = req.query.to
-        let binSize = req.query.bin;
+        let binSize = parseInt(req.query.bin) || 300;
 
 
         let newFrom = moment(from).format("YYYY-MM-DD HH:mm:ss")
         let newTo = moment(to).format("YYYY-MM-DD HH:mm:ss")
         let result = db.getFromToMeasures(newFrom,newTo,(data)=>{
-            let finalData = acregation.calculateBin(data,binSize)
+            let finalData = acregation.calculateBin(data,binSize, moment(from).unix() , moment(to).unix())
             res.send(finalData);
         });
     } catch (error) {
