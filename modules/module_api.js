@@ -27,11 +27,17 @@ api.get('/fromto', function (req, res) {
     try {
         let from = req.query.from
         let to = req.query.to
-        let newFrom = moment(from).format("YYYY-MM-DD HH:mm:ss")
-        let newTo = moment(to).format("YYYY-MM-DD HH:mm:ss")
-        let result = db.getFromToMeasures(newFrom,newTo,(data)=>{
-            res.send(data);
-        });
+
+        if(from && to){
+            let newFrom = moment(from).format("YYYY-MM-DD HH:mm:ss")
+            let newTo = moment(to).format("YYYY-MM-DD HH:mm:ss")
+            let result = db.getFromToMeasures(newFrom,newTo,(data)=>{
+                res.send(data);
+            });
+        }else{
+            res.send('Please specify "from" and "to" parameter.');
+        }
+        
     } catch (error) {
         res.status(500).send('Server error occured.')
         console.log(error);
