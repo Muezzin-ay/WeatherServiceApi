@@ -1,2 +1,32 @@
-body {
+body{
+  background-color: rgb(61, 61, 61);
+  color: rgb(255, 255, 255);
+}
+
+.dashboard-tile {
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 15px;
+}
+
+.dashboard-tile-title {
+  color:rgb(126, 126, 126);
+  text-align: center;
+}
+
+th{
+  color: rgb(255, 255, 255);
+}
+
+.sensorData {
+  text-align: center;
+  font-size: 4em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.clickable {
+  cursor: pointer;
 }

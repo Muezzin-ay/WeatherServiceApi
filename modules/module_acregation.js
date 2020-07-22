@@ -68,7 +68,7 @@ module.exports = {
                 x_: moment((group.x)*1000).toISOString(), 
                 countValues: group.values.length,
                 values: {
-                    tempertaure:{
+                    temperature:{
                         avg: ((temperatures.reduce((a, b) => a + b, 0))/temperatures.length).toFixed(2),
                         min: Math.min(...temperatures).toFixed(2),
                         max: Math.max(...temperatures).toFixed(2)

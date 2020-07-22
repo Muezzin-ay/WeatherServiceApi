@@ -6,12 +6,21 @@
     <title>weatherSensor</title>
 
     <script src="./src/jQuery/jQuery.js"></script>
+    <script src="./src/popper/popper.min.js"></script>
     <script src="./src/bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+    <script src="./src/moment/moment.min.js"></script>
     <script src="./src/chartJs/chart.js"></script>
+    
     <script src="./src/vueJs/vue.js"></script>
     
     <!--owm scripts-->
-    <script src="./src/components/currentSensorData.js"></script>
+    <script src="./src/components/tile-current-temperature.js"></script>
+    <script src="./src/components/tile-current-pressure.js"></script>
+    <script src="./src/components/tile-current-humidity.js"></script>
+    <script src="./src/components/tile-chart-temperature.js"></script>
+    <script src="./src/components/tile-chart-humidity.js"></script>
+    <script src="./src/components/tile-chart-pressure.js"></script>
+    <script src="./src/components/dropdown-timerange.js"></script>
     <script src="./src/components/main.js"></script>
 
     <link rel="stylesheet" href="./src/bootstrap-4.5.0-dist/css/bootstrap.min.css">
@@ -21,8 +30,49 @@
   <body>
 
     <div id="app">
-        <current-sensor-data></current-sensor-data>
-      </div>
+      <div class="container-fluid">
+        
+        <div class="row">
+          <div class="col">
+            <dropdown-timerange @timerange-changed="reactOnTimeRangeChanged"></dropdown-timerange>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-sm">
+            <tile-current-temperature></tile-current-temperature>
+          </div>
+          <div class="col-sm">
+            
+            <tile-current-humidity></tile-current-humidity>
+          </div>
+          <div class="col-sm">
+            
+            <tile-current-pressure></tile-current-pressure>
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-sm">
+            
+            <tile-chart-temperature v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-temperature>
+          </div>
+          <div class="col-sm">
+           
+            <tile-chart-humidity v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-humidity>
+          </div>
+          <div class="col-sm">
+            
+            <tile-chart-pressure v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-pressure>
+          </div>
+          <div class="col-1"></div>
+        </div>
+      
+      
+      </div>  
+    </div>
 
   </body>
 </html>

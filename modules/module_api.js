@@ -10,9 +10,9 @@ api.get('/', function (req, res) {
             
             let R = {
                 timestamp: data.timestamp,
-                temperature: (data.temperature2 + data.temperature1)/2,
-                pressure: data.pressure,
-                humidity: data.humidity,
+                temperature: ((data.temperature2 + data.temperature1)/2).toFixed(2),
+                pressure: (data.pressure).toFixed(2),
+                humidity: (data.humidity).toFixed(2),
             }
             
             res.send(R);
