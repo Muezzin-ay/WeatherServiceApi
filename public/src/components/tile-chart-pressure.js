@@ -34,7 +34,7 @@ Vue.component("tile-chart-pressure",{
             for(dataPoint of vm.sensorHistoryData.result){
                 vm.chart.data.datasets[0].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.pressure.avg
+                    y: dataPoint.values.pressure.avg/10
                 });
             }
 

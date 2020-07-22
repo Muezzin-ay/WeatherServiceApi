@@ -77,6 +77,8 @@ Vue.component("tile-chart-temperature",{
             data: {
                 datasets:[
                     { fill: false, borderColor: '#ff6384', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    //{ fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    //{ fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
                 ]
             },
             
