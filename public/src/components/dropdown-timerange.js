@@ -11,7 +11,7 @@ Vue.component("dropdown-timerange",{
                 {
                     label: 'last hour',
                     value: 3600,
-                    defaultBin: 60
+                    defaultBin: 300
                 },
                 {
                     label: 'last 6 hours',

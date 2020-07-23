@@ -20,7 +20,7 @@ Vue.component("tile-current-pressure",{
     },
     computed : {
         pressure_final: function(){
-            return (this.sensorData.pressure/10).toFixed(2)
+            return (this.sensorData.pressure/100).toFixed(2)
         }
     },
     mounted : function(){
