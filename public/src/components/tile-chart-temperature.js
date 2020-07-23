@@ -30,11 +30,21 @@ Vue.component("tile-chart-temperature",{
             let vm = this;
             
             vm.chart.data.datasets[0].data = [];
+            vm.chart.data.datasets[1].data = [];
+            vm.chart.data.datasets[2].data = [];
             
             for(dataPoint of vm.sensorHistoryData.result){
                 vm.chart.data.datasets[0].data.push({
                     x: dataPoint.x*1000,
                     y: dataPoint.values.temperature.avg
+                });
+                vm.chart.data.datasets[1].data.push({
+                    x: dataPoint.x*1000,
+                    y: dataPoint.values.temperature.max
+                });
+                vm.chart.data.datasets[2].data.push({
+                    x: dataPoint.x*1000,
+                    y: dataPoint.values.temperature.min
                 });
             }
 
@@ -77,8 +87,8 @@ Vue.component("tile-chart-temperature",{
             data: {
                 datasets:[
                     { fill: false, borderColor: '#ff6384', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
-                    //{ fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
-                    //{ fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    { fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    { fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
                 ]
             },
             
