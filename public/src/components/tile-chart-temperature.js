@@ -5,7 +5,11 @@ Vue.component("tile-chart-temperature",{
             sensorHistoryData : [],
             title: "Temperature history",
             id_internal: 'temperature-history',
-            chartLabel: 'Temperature',
+            chartLabel:[
+                'Avg-Temp',
+                'Max-Temp',
+                'Min-Temp'
+            ], 
             from: null,
             to: null,
             bin: null,
@@ -28,26 +32,40 @@ Vue.component("tile-chart-temperature",{
         },
         calculateChartData: function(){
             let vm = this;
+            let max = -9000;
+            let min = 9000;
             
             vm.chart.data.datasets[0].data = [];
             vm.chart.data.datasets[1].data = [];
             vm.chart.data.datasets[2].data = [];
             
             for(dataPoint of vm.sensorHistoryData.result){
+                let tavg = parseFloat(dataPoint.values.temperature.avg)
+                let tmax = parseFloat(dataPoint.values.temperature.max)
+                let tmin = parseFloat(dataPoint.values.temperature.min)
+                if (tmax > max){
+                    max = tmax
+                }
+                if (tmin < min){
+                    min = tmin
+                }
+
                 vm.chart.data.datasets[0].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.temperature.avg
+                    y: tavg
                 });
                 vm.chart.data.datasets[1].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.temperature.max
+                    y: tmax
                 });
                 vm.chart.data.datasets[2].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.temperature.min
+                    y: tmin
                 });
             }
 
+            vm.chart.options.scales.yAxes[0].ticks.min = min - 1;
+            vm.chart.options.scales.yAxes[0].ticks.max = max + 1;
             vm.chart.update();
         }
     },
@@ -77,8 +95,6 @@ Vue.component("tile-chart-temperature",{
         vm.to = moment().unix();
         vm.from = vm.to - vm.selectedTimerange
         console.log("component has been mounted")
-    
-        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
         var ctx = $('#'+vm.id);
         
@@ -86,10 +102,10 @@ Vue.component("tile-chart-temperature",{
             type: 'line',
             data: {
                 datasets:[
-                    { fill: false, borderColor: '#ff6384', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
-                    { fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
-                    { fill: false, borderColor: '#ff5000', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
-                ]
+                    { fill: false, borderColor: '#8a1500', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[0]},
+                    { fill: false, borderColor: '#5c0c00', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[1]},
+                    { fill: false, borderColor: '#e81f00', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[2]},
+                ],
             },
             
             options: {
@@ -99,7 +115,7 @@ Vue.component("tile-chart-temperature",{
                             display: true,
                             labelString: 'Time'
                         },
-                        stacked: true,
+                        stacked: false,
                         type: 'time',
                         distribution: 'linear',
                         time: {
@@ -111,19 +127,25 @@ Vue.component("tile-chart-temperature",{
                                 hour: 'HH:mm',
                                 day:'DD.MM.YY HH:mm',
                                 week:'DD.MM.YY HH:mm'
-                            }
+                            },
                         },
                         ticks: {
                             display: true 
-                        }
+                        },
                     }],
                     yAxes: [{
-                        
+                        display : true,
+                        scaleLabel : {display : true, labelString : "temperature"},
+                        ticks: {
+                            display: true,
+                            min: null,
+                            max: null
+                        },
                     }]
                 }
             }
         });
-
+        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
     },
     template : 

@@ -5,7 +5,11 @@ Vue.component("tile-chart-pressure",{
             sensorHistoryData : [],
             title: "Pressure history",
             id_internal: 'pressure-history',
-            chartLabel: 'Pressure',
+            chartLabel:[
+                'Avg-Pressure',
+                'Max-Pressure',
+                'Min-Pressure'
+            ],
             from: null,
             to: null,
             bin: null,
@@ -28,16 +32,40 @@ Vue.component("tile-chart-pressure",{
         },
         calculateChartData: function(){
             let vm = this;
+            let max = -9000;
+            let min = 9000;
             
             vm.chart.data.datasets[0].data = [];
+            vm.chart.data.datasets[1].data = [];
+            vm.chart.data.datasets[2].data = [];
             
             for(dataPoint of vm.sensorHistoryData.result){
+                let tavg = parseFloat((dataPoint.values.pressure.avg / 100).toFixed(2))
+                let tmax = parseFloat((dataPoint.values.pressure.max / 100).toFixed(2))
+                let tmin = parseFloat((dataPoint.values.pressure.min / 100).toFixed(2))
+                if (tmax > max){
+                    max = tmax
+                }
+                if (tmin < min){
+                    min = tmin
+                }
+
                 vm.chart.data.datasets[0].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.pressure.avg/100
+                    y: tavg
+                });
+                vm.chart.data.datasets[1].data.push({
+                    x: dataPoint.x*1000,
+                    y: tmax
+                });
+                vm.chart.data.datasets[2].data.push({
+                    x: dataPoint.x*1000,
+                    y: tmin
                 });
             }
 
+            vm.chart.options.scales.yAxes[0].ticks.min = min - 1;
+            vm.chart.options.scales.yAxes[0].ticks.max = max + 1;
             vm.chart.update();
         }
     },
@@ -67,8 +95,6 @@ Vue.component("tile-chart-pressure",{
         vm.to = moment().unix();
         vm.from = vm.to - vm.selectedTimerange
         console.log("component has been mounted")
-    
-        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
         var ctx = $('#'+vm.id);
         
@@ -76,7 +102,9 @@ Vue.component("tile-chart-pressure",{
             type: 'line',
             data: {
                 datasets:[
-                    { fill: false, borderColor: '#cc65fe', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    { fill: false, borderColor: '#18a85b', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[0]},
+                    { fill: false, borderColor: '#0d5c32', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[1]},
+                    { fill: false, borderColor: '#20e87e', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[2]},
                 ]
             },
             
@@ -106,11 +134,18 @@ Vue.component("tile-chart-pressure",{
                         }
                     }],
                     yAxes: [{
-                        
+                        display : true,
+                        scaleLabel : {display : true, labelString : "pressure"},
+                        ticks: {
+                            display: true,
+                            min: null,
+                            max: null
+                        },
                     }]
                 }
             }
         });
+        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
 
     },

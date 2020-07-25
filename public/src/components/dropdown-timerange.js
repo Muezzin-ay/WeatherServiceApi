@@ -27,6 +27,11 @@ Vue.component("dropdown-timerange",{
                     label: 'last 48 hours',
                     value: 172800,
                     defaultBin: 3600
+                },
+                {
+                    label: 'last 72 hours',
+                    value: 259200,
+                    defaultBin: 7200
                 }
             ]
         }

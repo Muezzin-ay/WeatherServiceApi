@@ -5,7 +5,11 @@ Vue.component("tile-chart-humidity",{
             sensorHistoryData : [],
             title: "Humidity history",
             id_internal: 'humidity-history',
-            chartLabel: 'Humidity',
+            chartLabel:[
+                'Avg-Humidity',
+                'Max-Humidity',
+                'Min-Humidity'
+            ],
             from: null,
             to: null,
             bin: null,
@@ -28,16 +32,40 @@ Vue.component("tile-chart-humidity",{
         },
         calculateChartData: function(){
             let vm = this;
+            let max = -9000;
+            let min = 9000;
             
             vm.chart.data.datasets[0].data = [];
+            vm.chart.data.datasets[1].data = [];
+            vm.chart.data.datasets[2].data = [];
             
             for(dataPoint of vm.sensorHistoryData.result){
+                let tavg = parseFloat(dataPoint.values.humidity.avg)
+                let tmax = parseFloat(dataPoint.values.humidity.max)
+                let tmin = parseFloat(dataPoint.values.humidity.min)
+                if (tmax > max){
+                    max = tmax
+                }
+                if (tmin < min){
+                    min = tmin
+                }
+
                 vm.chart.data.datasets[0].data.push({
                     x: dataPoint.x*1000,
-                    y: dataPoint.values.humidity.avg
+                    y: tavg
+                });
+                vm.chart.data.datasets[1].data.push({
+                    x: dataPoint.x*1000,
+                    y: tmax
+                });
+                vm.chart.data.datasets[2].data.push({
+                    x: dataPoint.x*1000,
+                    y: tmin
                 });
             }
 
+            vm.chart.options.scales.yAxes[0].ticks.min = min - 1;
+            vm.chart.options.scales.yAxes[0].ticks.max = max + 1;
             vm.chart.update();
         }
     },
@@ -67,8 +95,6 @@ Vue.component("tile-chart-humidity",{
         vm.to = moment().unix();
         vm.from = vm.to - vm.selectedTimerange
         console.log("component has been mounted")
-    
-        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
         var ctx = $('#'+vm.id);
         
@@ -76,7 +102,9 @@ Vue.component("tile-chart-humidity",{
             type: 'line',
             data: {
                 datasets:[
-                    { fill: false, borderColor: '#36a2eb', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel},
+                    { fill: false, borderColor: '#0074d9', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[0]},
+                    { fill: false, borderColor: '#001f3f', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[1]},
+                    { fill: false, borderColor: '#7fdbff', data: [], pointRadius: 3, lineTension: 0, borderWidth: 3, label: vm.chartLabel[2]},
                 ]
             },
             
@@ -106,12 +134,18 @@ Vue.component("tile-chart-humidity",{
                         }
                     }],
                     yAxes: [{
-                        
+                        display : true,
+                        scaleLabel : {display : true, labelString : "humidity"},
+                        ticks: {
+                            display: true,
+                            min: null,
+                            max: null
+                        },
                     }]
                 }
             }
         });
-
+        vm.loadSensorData(vm.from, vm.to, vm.bin);
 
     },
     template : 
