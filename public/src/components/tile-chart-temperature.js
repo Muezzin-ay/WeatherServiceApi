@@ -63,6 +63,10 @@ Vue.component("tile-chart-temperature",{
                     y: tmin
                 });
             }
+            let tempDatasets = []
+            tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+            vm.chart.data.datasets = tempDatasets
+            
 
             vm.chart.options.scales.yAxes[0].ticks.min = min - 1;
             vm.chart.options.scales.yAxes[0].ticks.max = max + 1;

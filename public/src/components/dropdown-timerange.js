@@ -16,17 +16,17 @@ Vue.component("dropdown-timerange",{
                 {
                     label: 'last 6 hours',
                     value: 21600,
-                    defaultBin: 300
+                    defaultBin: 600
                 },
                 {
                     label: 'last 24 hours',
                     value: 86400,
-                    defaultBin: 1800
+                    defaultBin: 2400
                 },
                 {
                     label: 'last 48 hours',
                     value: 172800,
-                    defaultBin: 3600
+                    defaultBin: 4800
                 },
                 {
                     label: 'last 72 hours',

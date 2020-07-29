@@ -21,6 +21,7 @@
     <script src="./src/components/tile-chart-humidity.js"></script>
     <script src="./src/components/tile-chart-pressure.js"></script>
     <script src="./src/components/dropdown-timerange.js"></script>
+    <script src="./src/components/currentTime.js"></script>
     <script src="./src/components/main.js"></script>
 
     <link rel="stylesheet" href="./src/bootstrap-4.5.0-dist/css/bootstrap.min.css">
@@ -28,32 +29,48 @@
 
   </head>
   <body>
-    <blockquote class="blockquote">
-      <p class="display-1 text-primary text-center" >Weather Sensor</p>
-    </blockquote>
+    
     <div id="app">
-      <div class="container-fluid">
-        
-        <div class="row">
-          <div class="col">
-            <dropdown-timerange @timerange-changed="reactOnTimeRangeChanged"></dropdown-timerange>
-          </div>
+        <!--NavbarStart-->
+
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <dropdown-timerange @timerange-changed="reactOnTimeRangeChanged"></dropdown-timerange>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav mr-autom navbar-right">
+            <li class="nav-item">
+              <current-time></current-time>
+            </li>
+          </ul>
+
         </div>
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-sm">
-            <tile-current-temperature></tile-current-temperature>
+      </nav>
+
+        <!--NavbarEnd-->
+
+      <blockquote class="blockquote">
+        <p class="display-1 text-primary text-center" >Weather Sensor</p>
+      </blockquote>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col-sm">
+              <tile-current-temperature></tile-current-temperature>
+            </div>
+            <div class="col-sm">
+              
+              <tile-current-humidity></tile-current-humidity>
+            </div>
+            <div class="col-sm">
+              
+              <tile-current-pressure></tile-current-pressure>
+            </div>
+            <div class="col-1"></div>
           </div>
-          <div class="col-sm">
-            
-            <tile-current-humidity></tile-current-humidity>
-          </div>
-          <div class="col-sm">
-            
-            <tile-current-pressure></tile-current-pressure>
-          </div>
-          <div class="col-1"></div>
-        </div>
 
         <div class="row">
           <div class="col-1"></div>
