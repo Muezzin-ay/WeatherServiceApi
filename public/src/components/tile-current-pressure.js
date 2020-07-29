@@ -11,7 +11,7 @@ Vue.component("tile-current-pressure",{
             let vm = this;
             $.ajax({
                 method: "GET",
-                url: "/api"
+                url: "./api"
               })
                 .done(function(data) {
                   vm.sensorData = data

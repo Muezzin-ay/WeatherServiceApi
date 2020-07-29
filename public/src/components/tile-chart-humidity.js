@@ -22,7 +22,7 @@ Vue.component("tile-chart-humidity",{
             let vm = this;
             $.ajax({
                 method: "GET",
-                url: "/api/fromto?from="+moment(from*1000).toISOString()+"&to="+moment(to*1000).toISOString()+"&bin="+bin
+                url: "./api/fromto?from="+moment(from*1000).toISOString()+"&to="+moment(to*1000).toISOString()+"&bin="+bin
               })
             .done(function(data) {
                   vm.sensorHistoryData = data;
