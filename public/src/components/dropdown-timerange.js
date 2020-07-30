@@ -3,7 +3,7 @@ Vue.component("dropdown-timerange",{
     data : ()=>{
         return{
             selectedOption: {
-                label: 'Timerange',
+                label: 'last hour',
                 value: null,
                 binSize: 300,
             },

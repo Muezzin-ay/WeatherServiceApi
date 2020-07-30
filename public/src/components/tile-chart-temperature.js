@@ -1,5 +1,5 @@
 Vue.component("tile-chart-temperature",{
-    props : ['selectedTimerange', 'selectedBinSize'],
+    props : ['selectedTimerange', 'selectedBinSize','selectedAggregation'],
     data : ()=>{
         return{
             sensorHistoryData : [],
@@ -64,9 +64,25 @@ Vue.component("tile-chart-temperature",{
                 });
             }
             let tempDatasets = []
-            tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+            if (vm.selectedAggregation == "all") {
+                tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+            }   
+            else if (vm.selectedAggregation == "avg"){
+                tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+                vm.chart.data.datasets[1].data = []
+                vm.chart.data.datasets[2].data = []
+            }
+            else if (vm.selectedAggregation == "max"){
+                tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+                vm.chart.data.datasets[0].data = []
+                vm.chart.data.datasets[2].data = []
+            }
+            else if (vm.selectedAggregation == "min"){
+                tempDatasets = [vm.chart.data.datasets[0], vm.chart.data.datasets[1], vm.chart.data.datasets[2]]
+                vm.chart.data.datasets[0].data = []
+                vm.chart.data.datasets[1].data = []
+            }
             vm.chart.data.datasets = tempDatasets
-            
 
             vm.chart.options.scales.yAxes[0].ticks.min = min - 1;
             vm.chart.options.scales.yAxes[0].ticks.max = max + 1;
@@ -79,6 +95,10 @@ Vue.component("tile-chart-temperature",{
             vm.to = moment().unix();
             vm.bin = vm.selectedBinSize;
             vm.from = vm.to - vm.selectedTimerange;
+            vm.loadSensorData(vm.from, vm.to, vm.bin);
+        },
+        selectedAggregation : function(){
+            let vm = this;
             vm.loadSensorData(vm.from, vm.to, vm.bin);
         }
         

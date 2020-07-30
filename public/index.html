@@ -21,6 +21,7 @@
     <script src="./src/components/tile-chart-humidity.js"></script>
     <script src="./src/components/tile-chart-pressure.js"></script>
     <script src="./src/components/dropdown-timerange.js"></script>
+    <script src="./src/components/dropdown-aggregation.js"></script>
     <script src="./src/components/currentTime.js"></script>
     <script src="./src/components/main.js"></script>
 
@@ -34,6 +35,9 @@
         <!--NavbarStart-->
 
       <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+
+        <img src="./media/water.png" width="32" height="32">
+        <span class="navbar-brand mb-0 h1">Weather Sensor</span>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -41,8 +45,11 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+            <li class="nav-item p-1">
               <dropdown-timerange @timerange-changed="reactOnTimeRangeChanged"></dropdown-timerange>
+            </li>
+            <li class="nav-item p-1">
+              <dropdown-aggregation @aggregation-changed="reactOnAggregationChanged"></dropdown-aggregation>
             </li>
           </ul>
 
@@ -57,39 +64,36 @@
 
         <!--NavbarEnd-->
 
-      <blockquote class="blockquote">
-        <p class="display-1 text-primary text-center" >Weather Sensor</p>
-      </blockquote>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col-sm">
-              <tile-current-temperature></tile-current-temperature>
-            </div>
-            <div class="col-sm">
-              
-              <tile-current-humidity></tile-current-humidity>
-            </div>
-            <div class="col-sm">
-              
-              <tile-current-pressure></tile-current-pressure>
-            </div>
-            <div class="col-1"></div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-sm">
+            <tile-current-temperature></tile-current-temperature>
           </div>
+          <div class="col-sm">
+            
+            <tile-current-humidity></tile-current-humidity>
+          </div>
+          <div class="col-sm">
+            
+            <tile-current-pressure></tile-current-pressure>
+          </div>
+          <div class="col-1"></div>
+        </div>
 
         <div class="row">
           <div class="col-1"></div>
           <div class="col-sm">
             
-            <tile-chart-temperature v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-temperature>
+            <tile-chart-temperature v-bind:selected-timerange=timerange.timerange v-bind:selected-bin-size=timerange.binSize v-bind:selected-aggregation=aggregation.aggregation></tile-chart-temperature>
           </div>
           <div class="col-sm">
            
-            <tile-chart-humidity v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-humidity>
+            <tile-chart-humidity v-bind:selected-timerange=timerange.timerange v-bind:selected-bin-size=timerange.binSize v-bind:selected-aggregation=aggregation.aggregation></tile-chart-humidity>
           </div>
           <div class="col-sm">
             
-            <tile-chart-pressure v-bind:selected-timerange=timerange v-bind:selected-bin-size=binSize></tile-chart-pressure>
+            <tile-chart-pressure v-bind:selected-timerange=timerange.timerange v-bind:selected-bin-size=timerange.binSize v-bind:selected-aggregation=aggregation.aggregation></tile-chart-pressure>
           </div>
           <div class="col-1"></div>
         </div>
