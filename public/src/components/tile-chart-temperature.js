@@ -116,7 +116,7 @@ Vue.component("tile-chart-temperature",{
                 scales: {
                     xAxes: [{
                         scaleLabel:{
-                            display: true,
+                            display: false,
                             labelString: 'Time'
                         },
                         stacked: false,
@@ -129,12 +129,29 @@ Vue.component("tile-chart-temperature",{
                                 second: 'HH:mm',
                                 minute: 'HH:mm',
                                 hour: 'HH:mm',
-                                day:'DD.MM.YY HH:mm',
+                                day:'HH:mm',
                                 week:'DD.MM.YY HH:mm'
                             },
                         },
                         ticks: {
-                            display: true 
+                            display: true
+                        },
+                    },
+                    {
+                        scaleLabel:{
+                            display: true,
+                            labelString: 'Time'
+                        },
+                        type: 'time',
+                        distribution: 'linear',
+                        time: {
+                            unit: 'day',
+                            displayFormats: {
+                                day:'DD.MM',
+                            },
+                        },
+                        ticks: {
+                            display: true
                         },
                     }],
                     yAxes: [{
