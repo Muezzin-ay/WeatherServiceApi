@@ -36,7 +36,7 @@ Vue.component("dropdown-timerange",{
                 {
                     label: 'last 7 days',
                     value: 604800,
-                    defaultBin: 7200
+                    defaultBin: 86400
                 }
             ]
         }
