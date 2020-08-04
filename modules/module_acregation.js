@@ -30,7 +30,7 @@ module.exports = {
         }
 
 
-        console.log('BinGroups: ' + binCount);
+        //console.log('BinGroups: ' + binCount);
 
         /**
          * Iteration over all data values and assign to matching group
