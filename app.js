@@ -7,10 +7,17 @@ var express = require('express');
 
 const PORT = 443;
 
-var privateKey = fs.readFileSync('./cert/Geokoord-Server-Robin_key.pem');
-var certificate = fs.readFileSync('./cert/Geokoord-Server-Robin_cert.pem');
+var privateKey = fs.readFileSync('./cert/key.pem');
+var certificate = fs.readFileSync('./cert/cert.pem');
 
-var credentials = {key: privateKey, cert: certificate};
+var options = {
+  key: privateKey, 
+  cert: certificate,
+  ca:[
+    fs.readFileSync('./cert/Geokoord-C01-CA_cert.pem'),
+    fs.readFileSync('./cert/Geokoord-Intermediate-I01_cert.pem')
+  ]
+};
 var app = express();
 
 //Handle HTTP to HTTPS redirect
@@ -32,7 +39,7 @@ app.use("/", express.static(__dirname + "/public"));
  * HTTP/HTTPS Server
  */
 
-var server = https.createServer(credentials, app).listen(PORT);
+var server = https.createServer(options, app).listen(PORT);
 console.log('HTTPS Server listening on %s', PORT);
 
 //301 redirect for http to https
